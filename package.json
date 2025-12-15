@@ -3,17 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "del /f /q .next\\dev\\lock && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
-    
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.90.11",
+    "@tanstack/react-query": "^5.90.12",
     "axios": "^1.13.2",
     "formik": "^2.4.9",
-    "next": "16.0.4",
+    "next": "^16.0.8",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-paginate": "^8.3.0",
@@ -26,8 +25,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
+    "baseline-browser-mapping": "^2.9.6",
     "eslint": "^9",
     "eslint-config-next": "16.0.4",
+    "prettier": "^3.7.4",
     "typescript": "^5"
   }
 }

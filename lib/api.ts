@@ -1,17 +1,24 @@
 import axios from 'axios';
 import type { Note, NoteTag } from '@/types/note';
 
-const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN as string | undefined;
-
-if (!token) {
-  throw new Error('NEXT_PUBLIC_NOTEHUB_TOKEN is missing');
+function getToken(): string {
+  const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
+  if (!token) {
+    throw new Error("NEXT_PUBLIC_NOTEHUB_TOKEN is missing");
+  }
+  return token;
 }
 
 const api = axios.create({
   baseURL: 'https://notehub-public.goit.study/api',
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
+});
+
+// Додаємо токен перед кожним запитом
+api.interceptors.request.use((config) => {
+  const token = getToken();
+  config.headers = config.headers || {};
+  config.headers.Authorization = `Bearer ${token}`;
+  return config;
 });
 
 export interface FetchNotesParams {
@@ -32,7 +39,7 @@ export interface CreateNotePayload {
 }
 
 export async function fetchNotes(
-  params: FetchNotesParams,
+  params: FetchNotesParams
 ): Promise<FetchNotesResponse> {
   const { page = 1, perPage = 12, search } = params;
 
@@ -44,7 +51,7 @@ export async function fetchNotes(
 }
 
 export async function createNote(
-  payload: CreateNotePayload,
+  payload: CreateNotePayload
 ): Promise<Note> {
   const { data } = await api.post<Note>('/notes', payload);
   return data;
